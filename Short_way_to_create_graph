@@ -1,0 +1,56 @@
+#include<bits/stdc++.h>
+
+using namespace std;
+// We can still think in generic way
+template <typename T>
+class graph{
+    public:
+    // unordered map
+    // Properties of an oject
+    unordered_map<T,list<T>> adj;
+    
+    // funaction is being made
+    void addEdge(T u,T v,bool direction){
+        // direction->0 means undirected graph
+        //direction->1means directed graph
+        // creating an edge from u to v
+        adj[u].push_back(v);
+        if(direction==0){
+            adj[v].push_back(u);
+        }
+    }
+    // funaction is being made 
+    void printAdjlist(){
+        for(auto i:adj){
+            cout<<i.first<<" -> ";
+            for(auto j:i.second){
+                cout<<j<<",";
+            }
+            cout<<endl;
+        }
+        
+    }
+    
+};
+
+int main(){
+    int n;
+    cout<<"Enter the number of node"<<endl;
+    cin>>n;
+    int m;
+    cout<<"Enter the number of edges"<<endl;
+    cin>>m;
+    // Creation of an object
+    // constructor calling
+    // graph<char>g
+    graph<int>g;
+    for(int i=0;i<m;i++){
+        int u,v;
+        cin>>u>>v;
+        // Creating undirected graph
+        g.addEdge(u,v,0);
+        
+    }
+    // Graph printing 
+    g.printAdjlist();
+}
