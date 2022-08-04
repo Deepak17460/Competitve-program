@@ -41,3 +41,5 @@ string cycleDetection (vector<vector<int>>& edges, int n, int m)
         }
    return "No";
 }
+Time Complexity is Linear here, as per the bsf complexity
+i.e O(n+E), where e is the edge and n is the Node of a graph
