@@ -1,0 +1,47 @@
+// Using Topological sort & Bfs to fetch the Cycle in Graph
+
+Tc=O(N+E) & Sc=O(N+E)
+
+Code:-
+#include<bits/stdc++.h>
+
+int detectCycleInDirectedGraph(int n, vector < pair < int, int >> & edges) {
+  // prepared adj using unordered map
+    unordered_map<int,list<int>>adj;
+    for(int i=0;i<edges.size();i++){
+        int u=edges[i].first-1;
+        int v=edges[i].second-1;
+        // it is a directed graph
+        adj[u].push_back(v);
+    }
+    // count the indegree of every Node
+    vector<int>indegree(n);
+    for(auto i:adj){
+        for(auto j: i.second){
+            indegree[j]++;
+        }
+    }
+    // to check the cycle in Directed graph
+    int ct=0;
+    // storing the node in queue whose indegree is Zero
+    queue<int>q;
+    for(int i=0;i<n;i++){
+        if(indegree[i]==0){
+            q.push(i);
+        }
+    }
+    while(!q.empty()){
+        int front=q.front();
+        q.pop();
+       ct++;
+        // checking neigbhour node
+        for(auto neigbhour:adj[front]){
+            indegree[neigbhour]--;
+            if(indegree[neigbhour]==0){
+                q.push(neigbhour);
+            }
+        }
+    }
+    return (ct==n)?0:1;
+    
+}
