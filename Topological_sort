@@ -1,0 +1,155 @@
+//Using Dfs Tarversal technique
+//Time Complexity is linear & space Comlexity is Linear
+
+Tc=O(N+E) & Sc=O(N)
+
+code:-
+
+#include<bits/stdc++.h>
+
+
+ void TLS(int Node, vector<bool>&visited,stack<int>&s,unordered_map<int,list<int>>&adj){
+        visited[Node]=1;
+        // Checking neighour
+        for(auto neigbhour:adj[Node]){
+            if(!visited[neigbhour]){
+                TLS(neigbhour,visited,s,adj);
+            }
+        }
+        // After Coming back
+        s.push(Node);
+    }
+void print( unordered_map<int,list<int>>&adj){
+    for(auto i : adj){
+        cout<<i.first<<"->";
+        for(auto j:i.second)
+            cout<<j<<",";
+        cout<<endl;
+    }
+}
+vector<int> topologicalSort(vector<pair<int,int>>& edges, int N, int M)
+{
+	// adjancency list
+    unordered_map<int,list<int>>adj;
+    for(int i=0;i<M;i++){
+        int u=edges[i].first;
+        int v=edges[i].second;
+        adj[u].push_back(v);
+    }
+    //print(adj);
+    // stack ds
+    stack<int>s;
+    // visited ds
+    vector<bool>visited(N);
+     // traversing on all the Node
+        for(int i=1;i<=N;i++){
+            if(!visited[i]){
+                TLS(i,visited,s,adj);
+            }
+        }
+        vector<int>res;
+        while(!s.empty()){
+            res.push_back(s.top());
+            s.pop();
+        }
+        return res;
+} 
+Code:-
+
+//{ Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;
+
+// } Driver Code Ends
+class Solution
+{
+    
+    void TLS(int Node, vector<bool>&visited,stack<int>&s,vector<int>adj[]){
+        visited[Node]=1;
+        // Checking neighour
+        for(auto neigbhour:adj[Node]){
+            if(!visited[neigbhour]){
+                TLS(neigbhour,visited,s,adj);
+            }
+        }
+        // After Coming back
+        s.push(Node);
+    }
+	public:
+	//Function to return list containing vertices in Topological order. 
+	vector<int> topoSort(int V, vector<int> adj[]) 
+	{
+	    // adjancent list
+	   // unordered_map<int,list<int>>adJ;
+	   // for(int i=0;i<adj[0].size();i++){
+	   //     int u=adj[i][0];
+	   //     int v=adj[i][1];
+	   //     adJ[u].push_back(v);
+	   // }
+	    // stack creating
+	    stack<int>s;
+	    vector<bool>visited(V);
+	    // traversing on all the Node
+	    for(int i=0;i<V;i++){
+	        if(!visited[i]){
+	            TLS(i,visited,s,adj);
+	        }
+	    }
+	    vector<int>res;
+	    while(!s.empty()){
+	        res.push_back(s.top());
+	        s.pop();
+	    }
+	    return res;
+	}
+};
+
+//{ Driver Code Starts.
+
+/*  Function to check if elements returned by user
+*   contains the elements in topological sorted form
+*   V: number of vertices
+*   *res: array containing elements in topological sorted form
+*   adj[]: graph input
+*/
+int check(int V, vector <int> &res, vector<int> adj[]) {
+    
+    if(V!=res.size())
+    return 0;
+    
+    vector<int> map(V, -1);
+    for (int i = 0; i < V; i++) {
+        map[res[i]] = i;
+    }
+    for (int i = 0; i < V; i++) {
+        for (int v : adj[i]) {
+            if (map[i] > map[v]) return 0;
+        }
+    }
+    return 1;
+}
+
+int main() {
+    int T;
+    cin >> T;
+    while (T--) {
+        int N, E;
+        cin >> E >> N;
+        int u, v;
+
+        vector<int> adj[N];
+
+        for (int i = 0; i < E; i++) {
+            cin >> u >> v;
+            adj[u].push_back(v);
+        }
+        
+        Solution obj;
+        vector <int> res = obj.topoSort(N, adj);
+
+        cout << check(N, res, adj) << endl;
+    }
+    
+    return 0;
+}
+
