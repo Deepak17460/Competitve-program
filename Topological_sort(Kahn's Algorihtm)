@@ -1,0 +1,47 @@
+// Using Bfs approach * Kahn's algorithm
+// Time Complexity is O(N+E) & Space Complexity is O(N+E)
+
+code:-
+
+#include<bits/stdc++.h>
+
+vector<int> topologicalSort(vector<vector<int>> &edges, int v, int e)  {
+    // prepared adj
+    unordered_map<int,list<int>>adj;
+    for(int i=0;i<e;i++){
+        int u=edges[i][0];
+        int v=edges[i][1];
+        adj[u].push_back(v);
+    }
+    // Count indegree of every Node
+    vector<int>indegree(v);
+    for(auto i:adj){
+        for(auto j:i.second){
+            indegree[j]++;
+        }
+    }
+    // creating queue
+    queue<int>q;
+    // putting the node of Zero degree
+    for(int i=0;i<v;i++){
+        if(indegree[i]==0){
+            q.push(i);
+        }
+    }
+    // for storing the value
+    vector<int>ans;
+    // applying bfs
+    while(!q.empty()){
+        int front=q.front();
+        ans.push_back(front);
+        q.pop();
+        // checking neibghour of node
+        for(auto neigbhour:adj[front]){
+            indegree[neigbhour]--;
+            if(indegree[neigbhour]==0){
+                q.push(neigbhour);
+            }
+        }
+    }
+    return ans;
+}
