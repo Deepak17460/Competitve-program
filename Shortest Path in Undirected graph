@@ -1,0 +1,54 @@
+//Using Bfs travesral technique
+Time Complexity is O(N+E) & space Cpmlexity is O(N+E)
+code:-
+
+#include<bits/stdc++.h>
+
+
+vector<int> shortestPath( vector<pair<int,int>> edges , int n , int m, int s , int t){
+	
+	// pepared adjlist
+    // using unordered map
+     unordered_map<int,list<int>>adj;
+    for(int i=0;i<m;i++){
+        int u=edges[i].first;
+        int v=edges[i].second;
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+    }
+    // using Bfs traversal
+    //vector<bool>vis(n);
+    unordered_map<int,bool>vis;
+    unordered_map<int,int>parent;
+    vis[s]=true;
+    parent[s]=-1;
+    // queue to store the Node
+    queue<int>q;
+    q.push(s);
+    while(!q.empty()){
+        int front=q.front();
+        q.pop();
+        // neigbhour checking
+        for(auto neigbhour : adj[front]){
+            if(!vis[neigbhour]){
+                q.push(neigbhour);
+                vis[neigbhour]=true;
+                parent[neigbhour]=front;
+            }
+        }
+    }
+    // Find shortest path in undirected graph
+    vector<int>ans; // find the path between source Node to Destination Node
+    // To get the distance between source Node to destination Node
+    int ct=0;
+    int currentNode=t;
+    ans.push_back(t);
+    while(currentNode!=s){
+        currentNode=parent[currentNode];
+        ct++;
+        ans.push_back(currentNode);
+    }
+    reverse(ans.begin(),ans.end());
+    return  ans;
+    return ct;
+}
