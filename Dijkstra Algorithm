@@ -1,0 +1,53 @@
+// Shortest path using Dijkstra Algorithm
+// Time Complexity is O(ElogV) where E is the Number of edges & V is the number vertices & space Comlexity is almost linear O(N+E)
+
+code->
+
+#include<bits/stdc++.h>
+vector<int> dijkstra(vector<vector<int>> &vec, int vertices, int edges, int source) {
+    // prepared adj
+    // creating unorderd_map
+    unordered_map<int,list<pair<int,int>>>adj;
+    for(int i=0;i<edges;i++){
+        int u=vec[i][0];
+        int v=vec[i][1];
+        int w=vec[i][2];
+        adj[u].push_back({v,w});
+        adj[v].push_back({u,w});
+    }
+    // distance vector for every node
+    vector<int>dist(vertices);
+    for(int i=0;i<vertices;i++){
+        dist[i]=INT_MAX;
+    }
+    //  creating set It is important
+    set<pair<int,int>>st;
+    dist[source]=0;
+    // inserting the {distance, node}
+    st.insert({0,source});
+    while(!st.empty()){
+        // get the top dist, node
+        auto top=*(st.begin());
+        int Nodedist=top.first;
+        int topNode=top.second;
+        // now, erase it from set
+        st.erase(st.begin());
+        // traversing on neigbhours of its node
+        for(auto neigbhour:adj[topNode]){
+            if(Nodedist+neigbhour.second<dist[neigbhour.first]){
+                // finding the pair Dist,node that it present or not in set
+                auto record=st.find({dist[neigbhour.first],neigbhour.first});
+                 // if Recode found then erase it
+                if(record!=st.end()){
+                    st.erase(record);
+                }
+                // update the distance
+                dist[neigbhour.first]=Nodedist+neigbhour.second;
+                // recors push in set now
+                st.insert({dist[neigbhour.first],neigbhour.first});
+            }
+        }
+    }
+    
+    return dist;
+}
