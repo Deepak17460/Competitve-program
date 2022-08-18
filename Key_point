@@ -1,0 +1,78 @@
+code->
+
+ #include<bits/stdc++.h>
+
+ using namespace std;
+ int d[8][2] = {{1, 1}, {1, -1}, {-1, 1}, {1, 0}, {0, 1}, {-1, -1},
+{0, -1}, {-1, 0}};
+
+bool Isvalid(int i,int j, int n){
+     if(i<0||i>n-1||j<0||j>n-1) return 0;
+     return 1;
+}
+vector<int> GetTheAdj(vector<vector<int>>&arr,int i, int j,int n){
+    vector<int>ans;
+    // find its adjcent cell i.e 8 adjcency cell
+      
+        // static const vector<pair<int, int>> Adj {
+        //     {-1,-1},
+        //     {-1, 0},
+        //     {-1, 1},
+        //     { 0,-1},
+        //     { 0, 1},
+        //     { 1,-1},
+        //     { 1, 0},
+        //     { 1, 1}};
+        int drow[]={-1,-1,-1,0,0,1,1,1};
+        int dcol[]={-1,0,1,-1,1,-1,0,1};
+        for(int i=0;i<8;i++){
+            // for(auto adj : Adj ){
+               // int nrow=i+adj.first;
+               int nrow=i+drow[i];
+               int ncol=j+dcol[i];
+                //int ncol=j+adj.second;
+                // checking that it is valid or not
+                if(Isvalid(nrow,ncol,n)){
+                    ans.push_back(arr[nrow][ncol]);
+                }
+            }
+       return ans;
+}
+
+ int main(){
+//      int N;
+//      cin>>N;
+//    vector<int>arr[N];
+//    for(int i=0;i<N;i++){
+//        int n;
+//        cin>>n;
+//        for(int j=0;j<n;j++){
+//            int x;
+//            cin>>x;
+//            arr[i].push_back(x);
+//        }
+//    }
+   int n;
+   cin>>n;
+   vector<vector<int>>arr(n);
+   for(int i=0;i<n;i++){
+       int m;
+       cin>>m;
+       for(int j=0;j<m;j++){
+           int t;
+           cin>>t;
+           arr[i].push_back(t);
+       }
+   }
+//  vector<vector<int> > arr{ { 1, 2, 3 },
+//                               { 4, 5, 6 },
+//                               { 7, 8, 9 } };
+   // this is the cell, from here find its adjcent cell
+   int x,y;
+   cin>>x>>y;
+   vector<int>ans=GetTheAdj(arr,x,y,n);
+   for(int i: ans){
+       cout<<i<<" ";
+   }
+
+ }
